@@ -34,17 +34,17 @@ override_dh_auto_configure:
 	if ! [ -e config.status ]; then \
 	dh_auto_configure -- \
 		--enable-exampledir=/usr/share/doc/frr/examples/ \
-		--localstatedir=/var/run/frr \
-		--sbindir=/usr/lib/frr \
-		--sysconfdir=/etc/frr \
+		--localstatedir=/var/run/quagga \
+		--sbindir=/usr/lib/quagga \
+		--sysconfdir=/etc/quagga \
 		$(USE_SNMP) \
 		--enable-ospfapi=yes \
 		--enable-vtysh=yes \
-		--enable-isisd=yes \
-		--enable-multipath=256 \
-		--enable-user=frr \
-		--enable-group=frr \
-		--enable-vty-group=frrvty \
+		--enable-isisd=no \
+		--enable-multipath=64 \
+		--enable-user=quagga \
+		--enable-group=quagga \
+		--enable-vty-group=quaggavty \
 		--enable-configfile-mask=0640 \
 		--enable-logfile-mask=0640 \
 		--enable-werror \
@@ -85,7 +85,11 @@ override_dh_auto_install:
 	perl -pi -e 's#^!log file #!log file /var/log/frr/#' debian/tmp/usr/share/doc/frr/examples/*sample*
 
 	# installing the Frr specific SNMP MIB
+ifeq ($(WANT_SNMP), 1)
 	install -D -m 644 ./zebra/GNOME-PRODUCT-ZEBRA-MIB debian/tmp/usr/share/snmp/mibs/GNOME-PRODUCT-ZEBRA-MIB
+else
+	mkdir -p debian/tmp/usr/share/snmp/mibs/
+endif
 
 	# cleaning .la files
 	sed -i "/dependency_libs/ s/'.*'/''/" debian/tmp/usr/lib/*.la
