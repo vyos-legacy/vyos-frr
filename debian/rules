@@ -40,7 +40,7 @@ override_dh_auto_configure:
 		$(USE_SNMP) \
 		--enable-ospfapi=yes \
 		--enable-vtysh=yes \
-		--enable-isisd=no \
+		--enable-isisd=yes \
 		--enable-multipath=64 \
 		--enable-user=quagga \
 		--enable-group=quagga \
