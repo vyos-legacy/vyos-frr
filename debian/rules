@@ -27,8 +27,8 @@ override_dh_auto_configure:
 	if ! [ -e config.status ]; then \
 	dh_auto_configure -- \
 		--enable-exampledir=/usr/share/doc/frr/examples/ \
-		--localstatedir=/var/run/quagga \
-		--sbindir=/usr/lib/quagga \
+		--localstatedir=/var/run/frr \
+		--sbindir=/usr/lib/frr \
 		--sysconfdir=/etc/quagga \
 		--enable-snmp=yes \
 		--enable-ospfapi=yes \
